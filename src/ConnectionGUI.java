@@ -14,8 +14,8 @@ public class ConnectionGUI extends JFrame {
         connectButton.addActionListener(e -> {
             String playerName = nameTextField.getText();
             if (!playerName.isEmpty()) { // Verificar nombre no vacío
-                // Lógica conexión jugador
-                dispose(); //
+                // Lógica conexión con el nombre de jugador
+                dispose(); // Cerrar la ventana de conexión
 
                 // Crear e iniciar la ventana de MemoramaGUI
                 MemoramaGUI memoramaGUI = new MemoramaGUI(playerName);
