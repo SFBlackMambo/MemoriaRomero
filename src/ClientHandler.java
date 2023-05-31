@@ -1,38 +1,34 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
+import java.util.*;
 
 public class ClientHandler implements Runnable {
-    private Socket clientSocket;
-    private BufferedReader reader;
-    private PrintWriter writer;
+    private final Socket clientSocket;
+    private final String playerName;
 
-    public ClientHandler(Socket clientSocket) {
+    public ClientHandler(Socket clientSocket, String playerName) {
         this.clientSocket = clientSocket;
-        try {
-            reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            writer = new PrintWriter(clientSocket.getOutputStream(), true);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.playerName = playerName;
     }
 
     @Override
     public void run() {
         try {
-            // Lógica de comunicación con el cliente
-            String clientMessage;
-            while ((clientMessage = reader.readLine()) != null) {
-                System.out.println("Mensaje recibido del cliente: " + clientMessage);
+            // Obtener el flujo de salida para enviar datos al cliente
+            OutputStream outputStream = clientSocket.getOutputStream();
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
 
-                // Lógica de procesamiento y respuesta al cliente
-                String serverResponse = processMessage(clientMessage);
+            // Generar la matriz de cartas
+            int[][] cardsMatrix = generateCardsMatrix();
 
-                // Enviar la respuesta al cliente
-                writer.println(serverResponse);
-            }
+            // Enviar la matriz de cartas al cliente
+            objectOutputStream.writeObject(cardsMatrix);
+            objectOutputStream.flush();
+
+            // ...
+            // Aquí puedes implementar la lógica adicional para comunicarte con el cliente y manejar el juego de Memorama
+            // ...
+
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -44,10 +40,31 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    private String processMessage(String message) {
-        // Lógica de procesamiento del mensaje recibido del cliente
-        // Aquí puedes implementar la lógica del juego de Memorama
-        // Retorna la respuesta del servidor al cliente
-        return "Respuesta del servidor";
+    private int[][] generateCardsMatrix() {
+        int[][] cardsMatrix = new int[4][5];
+        List<Integer> cardNumbers = new ArrayList<>();
+
+        // Generar una lista de números del 1 al 52
+        for (int i = 1; i <= 52; i++) {
+            cardNumbers.add(i);
+        }
+
+        // Mezclar la lista de números
+        Collections.shuffle(cardNumbers);
+
+        // Asignar los números a la matriz de cartas
+        int index = 0;
+        for (int row = 0; row < 4; row++) {
+            for (int col = 0; col < 5; col++) {
+                if (index >= cardNumbers.size()) {
+                    // Si ya se agotaron los números de la lista, reiniciar el índice
+                    index = 0;
+                }
+                cardsMatrix[row][col] = cardNumbers.get(index);
+                index++;
+            }
+        }
+
+        return cardsMatrix;
     }
 }

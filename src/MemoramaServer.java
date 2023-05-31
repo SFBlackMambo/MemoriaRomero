@@ -1,9 +1,8 @@
-
 import java.io.IOException;
-        import java.net.ServerSocket;
-        import java.net.Socket;
-        import java.util.concurrent.ExecutorService;
-        import java.util.concurrent.Executors;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MemoramaServer {
     private static final int MAX_THREADS = 2; // Número máximo de conexiones simultáneas
@@ -21,7 +20,7 @@ public class MemoramaServer {
                 System.out.println("Cliente conectado: " + clientSocket.getInetAddress().getHostAddress());
 
                 // Crear una instancia de Runnable para manejar la comunicación con el cliente
-                Runnable clientHandler = new ClientHandler(clientSocket);
+                Runnable clientHandler = new ClientHandler(clientSocket, "Jugador 1"); // Modificar los nombres de los jugadores según corresponda
                 executor.execute(clientHandler);
             }
         } catch (IOException e) {
@@ -31,4 +30,3 @@ public class MemoramaServer {
         }
     }
 }
-
