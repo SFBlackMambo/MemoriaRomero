@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Random;
@@ -25,15 +26,22 @@ public class MemoramaServer {
             Socket clientSocket2 = serverSocket.accept();
             System.out.println("Cliente 2 conectado: " + clientSocket2.getInetAddress().getHostAddress());
 
+// Obtener los nombres de los jugadores desde los clientes
+            ObjectInputStream inputStream1 = new ObjectInputStream(clientSocket1.getInputStream());
+            String playerName1 = (String) inputStream1.readObject();
+            ObjectInputStream inputStream2 = new ObjectInputStream(clientSocket2.getInputStream());
+            String playerName2 = (String) inputStream2.readObject();
 
-
-            // Crear una instancia de Runnable para manejar la comunicación con cada cliente
-            Runnable clientHandler1 = new ClientHandler(clientSocket1, "Jugador 1", cardMatrix);
+// Crear una instancia de Runnable para manejar la comunicación con cada cliente
+            Runnable clientHandler1 = new ClientHandler(clientSocket1, playerName1, playerName2, cardMatrix);
             executor.execute(clientHandler1);
-            Runnable clientHandler2 = new ClientHandler(clientSocket2, "Jugador 2", cardMatrix);
+            Runnable clientHandler2 = new ClientHandler(clientSocket2, playerName2, playerName1, cardMatrix);
             executor.execute(clientHandler2);
+
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         } finally {
             executor.shutdown();
         }

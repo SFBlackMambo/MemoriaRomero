@@ -19,6 +19,7 @@ public class ConnectionGUI extends JFrame {
 
                 // Crear e iniciar la ventana de MemoramaGUI
                 MemoramaGUI memoramaGUI = new MemoramaGUI(playerName);
+
                 memoramaGUI.setVisible(true);
                 // ...
             } else {
@@ -45,3 +46,5 @@ public class ConnectionGUI extends JFrame {
         });
     }
 }
+
+
