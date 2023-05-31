@@ -47,7 +47,6 @@ public class ClientHandler implements Runnable {
     private String processMessage(String message) {
         // Lógica de procesamiento del mensaje recibido del cliente
         // Aquí puedes implementar la lógica del juego de Memorama
-
         // Retorna la respuesta del servidor al cliente
         return "Respuesta del servidor";
     }
