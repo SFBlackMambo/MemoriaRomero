@@ -9,11 +9,11 @@ import java.util.List;
 public class MemoramaGUI extends JFrame {
 
     private static final int GRID_ROWS = 4;
-    private static final int GRID_COLS = 4;
+    private static final int GRID_COLS = 5;
     private static final String IMAGES_PATH = "img/";
 
     public MemoramaGUI(String playerName) {
-        setBounds(100, 100, 905, 660);
+        setBounds(100, 100, 900, 700);
         setResizable(false);
         this.setLocationRelativeTo(null);
         setTitle("Memorama");
@@ -56,11 +56,9 @@ public class MemoramaGUI extends JFrame {
         List<String> cardFileNames = new ArrayList<>();
 
         // Agregar todas las combinaciones de nombres de archivo posibles a la lista
-        for (int i = 1; i <= 13; i++) {
-            cardFileNames.add("C" + i + ".png");
-            cardFileNames.add("P" + i + ".png");
-            cardFileNames.add("T" + i + ".png");
-            cardFileNames.add("R" + i + ".png");
+        for (int i = 1; i <= 52; i++) {
+            cardFileNames.add(i + ".png");
+
         }
 
         // Mezclar la lista de nombres de archivo para obtener un orden aleatorio

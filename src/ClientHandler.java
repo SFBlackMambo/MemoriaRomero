@@ -57,7 +57,7 @@ public class ClientHandler implements Runnable {
         for (int row = 0; row < 4; row++) {
             for (int col = 0; col < 5; col++) {
                 if (index >= cardNumbers.size()) {
-                    // Si ya se agotaron los números de la lista, reiniciar el índice
+
                     index = 0;
                 }
                 cardsMatrix[row][col] = cardNumbers.get(index);
