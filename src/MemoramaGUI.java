@@ -3,6 +3,7 @@ import java.awt.*;
 import java.io.File;
 import javax.imageio.ImageIO;
 import java.io.IOException;
+import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
@@ -12,9 +13,10 @@ public class MemoramaGUI extends JFrame {
     private static final int COLS = 5;
     private static final String IMAGES_PATH = "img/";
     private int[][] cardMatrix;
+    private ObjectInput inputStream;
 
 
-    public MemoramaGUI(String playerName, int[][] cardMatrix) {
+    public MemoramaGUI(String playerName) {
         this.cardMatrix = cardMatrix;
 
         setBounds(100, 100, 900, 700);
@@ -68,6 +70,7 @@ public class MemoramaGUI extends JFrame {
             int serverPort = 12345; // Puerto del servidor
 
             Socket socket = new Socket(serverIP, serverPort);
+            ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
 
             // Realizar operaciones de comunicación con el servidor
             // ...
@@ -83,7 +86,7 @@ public class MemoramaGUI extends JFrame {
         try {
             Object receivedObject = inputStream.readObject();
             if (receivedObject instanceof String[][]) {
-                cardMatrix = (String[][]) receivedObject;
+                cardMatrix = (int[][]) receivedObject;
             } else {
                 // Manejar el caso en que el objeto recibido no sea de tipo String[][]
                 System.out.println("El objeto recibido no es de tipo String[][]");
